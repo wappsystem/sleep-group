@@ -1,0 +1,92 @@
+<div id=D__ID>
+	<section id=form_container__ID>
+		<div id=header__ID>
+			Charged
+		</div>
+		<form id=F__ID>
+			<div class="row row__ID">
+				<div class="col">
+		    		<label>Project</label>
+		    		<input type="text" class="form-control" name="Project" required />
+				</div>
+	        </div>
+			<div class="row row__ID">
+				<div class="col">
+		    		<label>Start Date</label>
+		    		<input type="date" class="form-control" name="Start_Date" id=Start_Date__ID  />
+				</div>
+	        </div>
+			<div class="row row__ID">
+				<div class="col">
+		    		<label>End Date</label>
+		    		<input type="text" class="form-control" name="End_Date" id=End_Date__ID />
+				</div>
+	        </div>
+			<div class="row row__ID">
+				<div class="col">
+		    		<label>Setup</label>
+		    		<input type="text" class="form-control" name="Setup" />
+				</div>
+	        </div>
+			<div class="row row__ID">
+				<div class="col">
+		    		<label>Ongoing</label> <button type=button id=update_charge__ID class="btn btn-sm btn-warning">Update charge</button>
+		    		<input type="text" class="form-control" name="Ongoing" id=Ongoing__ID />
+				</div>
+	        </div>
+			<div class="row row__ID">
+				<div class="col">
+		    		<label>Screening</label>
+		    		<input type="text" class="form-control" name="Screening" />
+				</div>
+	        </div>
+			<br>
+			<div class="row row__ID">
+				<div class="col">
+		    		<label>Total Rebated Charge</label>
+		    		<input type="text" class="form-control" name="Total_Charge" id="Total_Charge__ID" readonly />
+				</div>
+	        </div>
+			<br>
+			<div class="row">
+				<div class=col>
+					<button id=submit__ID type="submit" class="btn btn-secondary">Submit</button>
+				</div>
+			</div>
+		</form>
+	</section>
+	<script>
+		function F__ID(){
+			//-------------------------------------
+            VmInclude:__COMPONENT__/f/form.01.js
+			//-------------------------------------
+			$('#update_charge__ID').on('click',function(){
+             	if($('#End_Date__ID').val()==''){
+					var date1 = new Date($('#Start_Date__ID').val());
+					var date2 = new Date(Date.now());
+					$('#Ongoing__ID').val((((date2.getFullYear()*12+date2.getMonth())-(date1.getFullYear()*12+date1.getMonth())))*75);
+				}
+				else{
+					var date1 = new Date($('#Start_Date__ID').val());
+					var date2 = new Date($('#End_Date__ID').val());
+					$('#Ongoing__ID').val((((date2.getFullYear()*12+date2.getMonth())-(date1.getFullYear()*12+date1.getMonth())))*75);
+				}
+         	})
+			//-------------------------------------
+			m.before_submit=function(data,index){
+				data.Total_Charge=(parseInt(data.Setup)+parseInt(data.Ongoing));
+				index.I1=data.Total_Charge;
+				return true;
+			}
+			//-------------------------------------
+
+
+		}
+	</script>
+	<style>
+		#form_container__ID{
+			max-width:700px;
+		}
+        VmInclude:__COMPONENT__/f/form.01.css
+	</style>
+<div id=D__ID>
