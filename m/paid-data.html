@@ -7,29 +7,26 @@
             //-------------------------------------
             VmInclude:__COMPONENT__/g/grid.01.js
             //-------------------------------------
-            var fields="Project,Start_Date,End_date,Setup,Ongoing,Total_Charge,Screeing_Start_Date,Screening,Screening_paid";
+            var fields="Date,Project,Setup,Ongoing,Total_Paid";
             m.fields="_Form,"+fields+",Submit_date,Submitted_by,_Delete";
-            //-------------------------------------
+            //-------------------------------------            
             m.cell_render=function(records,I,field,td){
                 switch(field){
                     case 'Setup':
                     case 'Ongoing':
-                    case 'Screening':
-                    case 'Total_Charge':
+                    case 'Total_Paid':
                         td.html("$"+parseFloat(records[I].Data[field]).toFixed(0));
                         td.css('text-align','right')
                         break;
-                    case 'Screening_paid':
-                        var html='<input type=checkbox />';
-                        $vm.render_checkbox_field(records[I].Data,'__ID',td,html)
-                        break;
-
                 }
             }
             //-------------------------------------
         }
     </script>
     <style>
-        VmInclude:__COMPONENT__/g/grid.01.css
+        VmInclude:__CURRENT_PATH__/grid.01.css
+        #D__ID{
+    		background-color:#F1B70E;
+    	}
     </style>
 </div>
