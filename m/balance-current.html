@@ -1,0 +1,121 @@
+<div id=D__ID>
+    <div id=panel__ID>
+        <div class=h_img__ID>
+            <div class=h_txt__ID><h4>Project tracking</h4></div>
+        </div>
+        <div >
+            <div class=h_txt__ID><h4>Current Balance</h4>
+            <div >
+                <table>
+                <tr>
+                    <td><h6>Total Paid</h6></td><td style='padding-left: 20px'><h6><div id=Paid__ID ></div></h6></td>
+                </tr>
+                <tr>
+                    <td><h6>Total Used</h6></td><td style='padding-left: 20px'><h6><div id=Used__ID ></div></h6></td>
+                </tr>
+                <hr>
+                <tr style='border-top: 2px solid white;'>
+                    <td style='padding-top: 10px'><h6>Balance</h6></td><td style='padding-left: 20px;padding-top:10px'><h4><div id=Balance__ID ></div></h4></td>
+                </tr>
+            </table>
+        </div>
+        </div>
+    </div>
+    <script>
+        function F__ID(){
+            VmInclude:__COMPONENT__/g/grid.01.js
+            //--------------------------------------------------------
+            m.fields="Paid,Used,Difference"
+            //--------------------------------------------------------
+            $vm.module_list["__MODULE__"].show=function(){
+                document.title="Balance | "+$vm.default_title;
+                $("meta[name='description']").attr("content","Balance");
+                //you can add more meta data for SEO
+            }
+            //--------------------------------------------------------
+            var this_module=$vm.module_list[$vm.vm['__ID'].name];
+            //--------------------------------------------------------
+            $('#D__ID').on('load',function(){
+                $('span.current_login__ID').text($vm.user_name);
+            })
+            //--------------------------------------------------------
+            var request_data_2=function(charged){
+                var f_cmd="find";
+                $vm.request({cmd:f_cmd,table:m.Table_2},function(res){                    
+                    if(res.status=='np' || res.result==undefined){
+                        res.result=[];
+                    }
+                    if(res.status=='np'){
+                        if(res.sys.tb=='on') $vm.alert("No permission. Private database table, ask the table's owner for permissions.");
+                        else $vm.alert("No permission.");
+                    }
+                    m.records=res.result;
+                    m.res=res;
+                    data_process_2(charged);
+                })
+            };
+            //--------------------------------------------------------
+            m.data_process=function(){
+                var charged=0;
+                for(var i=0;i<m.records.length;i++){
+                    charged+=parseInt(m.records[i].Data.Total_Charge);
+                }
+                request_data_2(charged)
+            };
+            //--------------------------------------------------------
+            var data_process_2=function(charged){
+                var paid=0;
+                for(var i=0;i<m.records.length;i++){
+                    paid+=parseInt(m.records[i].Data.Total_Paid);
+                }
+                $('#Paid__ID').text(formatter.format(paid))
+                $('#Used__ID').text(formatter.format(charged))
+                if(paid-charged<0) $('#Balance__ID').text(formatter.format(paid-charged)).css('color','red');
+                else $('#Balance__ID').text(formatter.format(paid-charged));
+            }
+            //--------------------------------------------------------
+            var formatter = new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD',
+                minimumFractionDigits: 0,
+            });
+            //--------------------------------------------------------
+        }
+    </script>
+    <style>
+        #D__ID{
+    		background-color:#F1B70E;
+    		height:100%;
+    		overflow: auto;
+    		animation: vm_module_fadein 1.0s;
+    	}
+        #panel__ID{
+            margin:0 auto;
+            max-width:1200px;
+    		padding:10px 0 0 20px;
+            font-size:14px;
+    	}
+         .h_img__ID{
+            height:300px;
+            background-size: cover; background-position: center center; 
+            background-image: url(https://images.unsplash.com/photo-1493815793585-d94ccbc86df8?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1350&h=300&fit=crop&ixid=eyJhcHBfaWQiOjF9);
+            padding-top:60px;
+            margin:50px 0 50px 0;
+            border-radius: 5px;
+        }
+        .h_txt__ID{
+            color:#fff;
+            background-color: rgba(2, 102, 112,0.7) !important;
+            display:inline-block;
+            margin: 0% 0% 0% 6%!important;
+            padding:20px;
+            border-radius: 10px;
+			text-shadow: 2px 2px 2px #000;
+        }
+    	@media screen and (max-width:768px){
+    		#panel__ID{
+    			padding:10px 0 0 10px;
+    		}
+    	}
+    </style>
+</div>
