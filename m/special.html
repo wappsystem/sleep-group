@@ -1,29 +1,16 @@
 <div id=D__ID>
     <div id=panel__ID>
-        <div class=h_img__ID>
-            <div class=h_txt__ID><h4>Project tracking</h4></div>
-        </div>
     	<div class='nav__ID'>
-            <span>&nbsp;Projects</span>
-            <ul>
-                <li><a href=?/paid-data>Paid</a></li>
-                <li><a href=?/charged-data>Charged</a></li>
-            </ul>
+            <div class=h_txt__ID>
+                <span>&nbsp;FTT recalculation</span>
+                <ul>
+                    <li><a href=?/b-ftt12-data>Baseline 12 mins</a></li>
+                    <li><a href=?/b-ftt6-data>Baseline 6 mins</a></li>
+                    <li><a href=?/t-ftt12-data>Treatment 12 mins</a></li>
+                    <li><a href=?/t-ftt6-data>Treatment 6 mins</a></li>
+                </ul>
+            </div>
         </div>
-    	<div class='nav__ID'>
-            <span>&nbsp;Balance</span>
-            <ul>
-                <li><a href=?/balance-current-data>Current</a></li>
-                <li><ax href=?/balance-monthly-data>Monthly aggregation</ax></li>
-            </ul>
-        </div>
-    	<div class='nav__ID'>
-            <span>&nbsp;Charts</span>
-            <ul>
-                <li><ax href=?/balance-monthly-chart>Monthly balance</ax></li>
-            </ul>
-        </div>
-
     </div>
     <script>
         function F__ID(){
@@ -82,37 +69,40 @@
     		padding:10px 0 0 20px;
             font-size:14px;
     	}
-    	#panel__ID a {
-    		text-decoration: none;
-    	}
-    	#panel__ID li {
-    		color:#555;
-    	}
-    	#panel__ID a:link {
-    		color:#555;
-    	}
-    	#panel__ID a:visited {
-    		color:#555;
-    	}
-    	#panel__ID a:hover {
-    		color:red;
-    	}
-    	#panel__ID a:active {
-    		color:#555;
-    	}
-        .nav__ID{
-	        padding:6px 26px 6px 6px;
-	        float:left;
-	    }
+        .h_txt__ID {
+            color: #fff;
+            background-color: rgba(2, 102, 112, 0.7) !important;
+            display: inline-block;
+            margin: 0% 0% 0% 6% !important;
+            padding: 20px;
+            border-radius: 10px;
+            text-shadow: 2px 2px 2px #000;
+        }
+        #panel__ID a {
+        text-decoration: none;
+        }
+        #panel__ID li {
+            color:#bbb;
+        }
+        #panel__ID a:link {
+            color:#bbb;
+        }
+        #panel__ID a:visited {
+            color:#bbb;
+        }
+        #panel__ID a:hover {
+            color:red;
+        }
+        #panel__ID a:active {
+            color:#bbb;
+        }
 	    .nav__ID span{
-			color:#283f55;
+			color:#ddd;
 			font-weight: bold;
 			margin:3px 10px;
             font-size: 18px;
             
             display: inline-block;
-            border-bottom: 1px solid #ce9700;
-            border-left: 1px solid #e4a700;
             padding-bottom: 2px;
             white-space: nowrap;
 	    }

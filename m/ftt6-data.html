@@ -1,0 +1,28 @@
+<div id=D__ID>
+    <div>
+        VmInclude:__COMPONENT__/g/grid.01.html
+    </div>
+    <script>
+        function F__ID(){
+            //-------------------------------------
+            VmInclude:__COMPONENT__/g/grid.01.js
+            //-------------------------------------
+            var fields="Participant ID,Participant,Correct_1,Correct_2,Correct_3,Correct_4,Correct_5,Correct_6,Error_1,Error_2,Error_3,Error_4,Error_5,Error_6,Time_1,Time_2,Time_3,Time_4,Time_5,Time_6,Tapping_Time,Match,Sequence_Number";
+            m.fields="_Form,"+fields+",Submit_date,Submitted_by,_Delete";
+            //-------------------------------------
+            m.cell_render=function(records,I,field,td){
+                switch(field){
+                    case 'Sequence_Number':
+                        break;
+
+                }
+            }
+            //-------------------------------------
+            
+        }
+    </script>
+    <style>
+        VmInclude:__CURRENT_PATH__/grid.01.css
+
+    </style>
+</div>
