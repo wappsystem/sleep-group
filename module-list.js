@@ -3,6 +3,9 @@
     var modules={
         "special":  			{url:"$H/m/special.html"},
         "dashboard":  			{url:"$H/m/balance-current.html",Table:"charged-wappsystem",Table_2:"paid-wappsystem"},
+        "research-leader-data":    			    {url:"$H/m/research-leader-data.html",Table:"research-leader-wappsystem",form_module:"research-leader-form"},
+        "research-leader-form":    	{url:"$H/m/research-leader-form.html",Table:"research-leader-wappsystem"},
+        "charge-print": 	        {url:"$H/m/charge-print.html",Table:"research-leader-wappsystem",Table_2:"charged-wappsystem",Table_3:"paid-wappsystem"},
         "paid-data":  			{url:"$H/m/paid-data.html",Table:"paid-wappsystem",form_module:"paid-form",tags:"marketing"},
         "paid-form":  			{url:"$H/m/paid-form.html",Table:"paid-wappsystem",tags:'marketing'},
         "charged-data":    			    {url:"$H/m/charged-data.html",Table:"charged-wappsystem",form_module:"charged-form"},

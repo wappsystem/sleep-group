@@ -7,52 +7,82 @@
 			<div class="row row__ID">
 				<div class="col">
 		    		<label>Project</label>
-		    		<input type="text" class="form-control" name="Project" required />
+		    		<input type="text" class="form-control" name="Project" id=Project__ID required />
+				</div>
+	        </div>
+			<div class="row row__ID">
+				<div class="col">
+		    		<label>Research Leader</label>
+		    		<input type="text" class="form-control" name="Research_Leader" id=Research_Leader__ID  />
+				</div>
+				<div class="col"style="display:none">
+		    		<label>Research Leader</label>
+		    		<input type="text" class="form-control" name="Research_Leader_uid"  />
 				</div>
 	        </div>
 			<div class="row row__ID">
 				<div class="col-4">
 		    		<label>Start Date</label>
-		    		<input type="date" class="form-control" name="Start_Date" id=Start_Date__ID  />
+		    		<input type="date" class="form-control" name="Start_Date" id=Start_Date__ID oninput="checkstatus__ID()" />
 				</div>
 				<div class="col-4">
 		    		<label>End Date</label>
-		    		<input type="text" class="form-control" name="End_Date" id=End_Date__ID />
+		    		<input type="date" class="form-control" name="End_Date" id=End_Date__ID oninput="checkstatus__ID()" />
+				</div>
+				<div class="col-4">
+		    		<label>Disable Date</label>
+		    		<input type="date" class="form-control" name="Disable_Date" id=Disable_Date__ID oninput="checkstatus__ID()" />
 				</div>
 	        </div>
+			<div class='row row__ID'>
+				<div class="col">
+					<label class=''><span class=''>Status</span>
+						<select class=form-control name=Status disabled>
+							<option value=''>---</option>
+							<option value="Waiting Activation">Waiting Activation</option>
+							<option value="Screening">Screening</option>
+							<option value="Active">Active</option>
+							<option value="Locked">Locked</option>
+							<option value="Disabled">Disabled</option>
+						</select>
+					</label>
+				</div>
+			</div>
+			<hr>
+			<div class="row row__ID">
+				<div class="col-4">
+		    		<label></label>
+					<button id=update_charge__ID type="button" class="btn btn-warning">Update Costs</button>
+				</div>
+				<div class="col-4">
+					<input type="date" class="form-control" name="Update_Date" readonly />
+				</div>
+	        </div>
+
 			<div class="row row__ID">
 				<div class="col">
 		    		<label>Setup</label>
-		    		<input type="text" class="form-control" name="Setup" />
+		    		<input type="text" class="form-control" name="Setup" id=Setup__ID />
 				</div>
 	        </div>
 			<div class="row row__ID">
 				<div class="col">
-		    		<label>Ongoing</label> <button type=button id=update_charge__ID class="btn btn-sm btn-warning">Update charge</button>
-		    		<input type="text" class="form-control" name="Ongoing" id=Ongoing__ID />
+		    		<label>Active Ongoing ($75/month)</label>
+		    		<input type="text" class="form-control" name="Ongoing" id=Ongoing__ID readonly />
 				</div>
 	        </div>
 			<div class="row row__ID">
 				<div class="col">
-		    		<label>Total Rebated Charge</label>
+		    		<label>Read Only Ongoing ($15/month)</label>
+		    		<input type="text" class="form-control" name="Ongoing_RO" id=Ongoing_ro__ID readonly />
+				</div>
+	        </div>
+			<div class="row row__ID">
+				<div class="col">
+		    		<label>Total Charge</label>
 		    		<input type="text" class="form-control" name="Total_Charge" id="Total_Charge__ID" readonly />
 				</div>
-	        </div>
-			<div class="row row__ID">
-				<div class="col-4">
-		    		<label>Screening Start Date</label>
-					<input type="date" class="form-control" name="Screeing_Start_Date" />
-					</div>
-				<div class="col-4">
-		    		<label>Screening</label>
-					<input type="text" class="form-control" name="Screening" />
-					</div>
-					<div class="col-4">
-						<label>Screening paid</label>
-					<input type="checkbox" class="form-control" name="Screening_paid" />
-					</div>
-	        </div>
-			<br>
+			</div>
 			<br>
 			<div class="row">
 				<div class=col>
@@ -62,25 +92,102 @@
 		</form>
 	</section>
 	<script>
+		function checkstatus__ID() {
+			if($('#Start_Date__ID').val()=="") $("#F__ID select[name=Status]").val("Waiting Activation")
+			if($('#End_Date__ID').val()=="" && $('#Start_Date__ID').val()!="") $("#F__ID select[name=Status]").val("Active")
+			if($('#Disable_Date__ID').val()=="" && $('#End_Date__ID').val()!="") $("#F__ID select[name=Status]").val("Locked")
+			if($('#Disable_Date__ID').val()!="") $("#F__ID select[name=Status]").val("Disabled")
+			if(($("#F__ID input[name=Project]").val()).indexOf('Screening')!=-1) $("#F__ID select[name=Status]").val("Screening")
+		}
+			//-------------------------------------
 		function F__ID(){
 			//-------------------------------------
             VmInclude:__COMPONENT__/f/form.01.js
 			//-------------------------------------
+            var load2 = m.load;
+            m.load = function () {
+                load2();
+				checkstatus__ID();
+            }
+            //-------------------------------------
+			$('#Project__ID').on('change',function(){
+				if(($("#F__ID input[name=Project]").val()).indexOf('Screening')!=-1) $("#F__ID select[name=Status]").val("Screening")
+			});
+            //-------------------------------------
 			$('#update_charge__ID').on('click',function(){
-             	if($('#End_Date__ID').val()==''){
-					var date1 = new Date($('#Start_Date__ID').val());
-					var date2 = new Date(Date.now());
-					$('#Ongoing__ID').val((((date2.getFullYear()*12+date2.getMonth())-(date1.getFullYear()*12+date1.getMonth())))*75);
+				if($('#Setup__ID').val()=="") $('#Setup__ID').val("0");
+				var date2 = new Date().toISOString().substring(0,10);
+				$("#F__ID input[name=Update_Date]").val(date2);
+				if($('#Start_Date__ID').val()==''){
+					$('#Ongoing__ID').val("0");
+					$('#Ongoing_ro__ID').val("0");
 				}
 				else{
-					var date1 = new Date($('#Start_Date__ID').val());
-					var date2 = new Date($('#End_Date__ID').val());
-					$('#Ongoing__ID').val((((date2.getFullYear()*12+date2.getMonth())-(date1.getFullYear()*12+date1.getMonth())))*75);
+					if($("#F__ID select[name=Status]").val()=="Active"){
+						var fulldate=($('#Start_Date__ID').val()).split('-')
+						var date1 = new Date(fulldate[0],fulldate[1]-1,fulldate[2]);
+						var date2 = new Date(Date.now());
+						$('#Ongoing__ID').val(((date2-date1)/24/3600000*2.4657).toFixed(0)); // $75/month
+					}
+					else if($("#F__ID select[name=Status]").val()=="Locked"){
+						var fulldate=($('#Start_Date__ID').val()).split('-')
+						var date1 = new Date(fulldate[0],fulldate[1]-1,fulldate[2]);
+						fulldate=($('#End_Date__ID').val()).split('-')
+						var date2 = new Date(fulldate[0],fulldate[1]-1,fulldate[2]);
+						$('#Ongoing__ID').val(((date2-date1)/24/3600000*2.4657).toFixed(0)); // $75/month
+					}
+					if($("#F__ID select[name=Status]").val()=="Locked"){
+						var fulldate=($('#End_Date__ID').val()).split('-')
+						var date1 = new Date(fulldate[0],fulldate[1]-1,fulldate[2]);
+						var date2 = new Date(Date.now());
+						$('#Ongoing_ro__ID').val(((date2-date1)/24/3600000*0.4931).toFixed(0)); // $15/month
+					}
+					else if($("#F__ID select[name=Status]").val()=="Disabled"){
+						var fulldate=($('#End_Date__ID').val()).split('-')
+						var date1 = new Date(fulldate[0],fulldate[1]-1,fulldate[2]);
+						fulldate=($('#Disable_Date__ID').val()).split('-')
+						var date2 = new Date(fulldate[0],fulldate[1]-1,fulldate[2]);
+						$('#Ongoing_ro__ID').val(((date2-date1)/24/3600000*0.4931).toFixed(0)); // $15/month
+					}
 				}
+				$('#Total_Charge__ID').val((parseFloat($('#Setup__ID').val())+parseFloat($('#Ongoing__ID').val())+parseFloat($('#Ongoing_ro__ID').val())).toFixed(0));
          	})
 			//-------------------------------------
+            //auto select research-leader
+            var get_name=function(record){
+                var name=record.Data.Research_Leader;
+                return name;
+            }
+            var get_client_info=function(record){
+                var name=record.Data.Research_Leader
+                return name;
+            }
+            var autocomplete_req_1={cmd:"find",table:"research-leader-wappsystem",options:{},skip:0,limit:10}
+            var autocomplete_callback_1=function(items){ $("#F__ID input[name=Research_Leader_uid]").val(items["UID"]); $("#F__ID input[name=Reserach_Leader]").val(get_client_info(items.record)); }
+            var autocomplete_list_1=function(records){
+                var items=[];
+                for(var i=0;i<records.length;i++){
+                    var obj={};
+                    obj.label=get_name(records[i]);
+                    obj['UID']=records[i].UID;
+                    obj['record']=records[i];
+                    items.push(obj);
+                }
+                return items;
+            }
+            var wait1=function(){
+                $vm.autocomplete($('#Research_Leader__ID'),autocomplete_req_1,autocomplete_list_1,autocomplete_callback_1);
+            }
+            var I=0; var loop_1=setInterval(function (){
+                if($vm['jquery-ui-min-js']!=undefined){  clearInterval(loop_1); wait1(); }
+                I++; if(I>50){ clearInterval(loop_1); alert("jquery-ui.min.js is not installed."); }
+            },100);
+            //-------------------------------------
 			m.before_submit=function(data,index){
-				data.Total_Charge=(parseInt(data.Setup)+parseInt(data.Ongoing));
+				//if(data.Setup=="" || data.Setup==undefined) data.Setup="0";
+				//if(data.Ongoing=="" || data.Ongoing==undefined) data.Ongoing="0";
+				//if(data.Ongoing_RO=="" || data.Ongoing_RO==undefined) data.Ongoing_RO="0";
+				//data.Total_Charge=(parseFloat(data.Setup)+parseFloat(data.Ongoing)+parseFloat(data.Ongoing_RO)).toFixed(0);
 				index.I1=data.Total_Charge;
 				return true;
 			}
@@ -96,6 +203,6 @@
         VmInclude:__CURRENT_PATH__/form.01.css
         #D__ID{
     		background-color:#F1B70E;
-    	}
+		}
 	</style>
-<div id=D__ID>
+</div>

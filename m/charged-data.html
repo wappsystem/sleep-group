@@ -7,7 +7,7 @@
             //-------------------------------------
             VmInclude:__COMPONENT__/g/grid.01.js
             //-------------------------------------
-            var fields="Project,Start_Date,End_date,Setup,Ongoing,Total_Charge";//,Screeing_Start_Date,Screening,Screening_paid";
+            var fields="Project,Research_Leader_uid,Research_Leader,Start_Date,End_Date,Setup,Ongoing,Ongoing_RO,Total_Charge,Status,Update_Date";
             m.fields="_Form,"+fields+",Submit_date,Submitted_by,_Delete";
             //-------------------------------------
             m.cell_render=function(records,I,field,td){
@@ -16,14 +16,10 @@
                     case 'Ongoing':
                     case 'Screening':
                     case 'Total_Charge':
+                    case 'Ongoing_RO':
                         td.html("$"+parseFloat(records[I].Data[field]).toFixed(0));
                         td.css('text-align','right')
                         break;
-                    case 'Screening_paid':
-                        var html='<input type=checkbox />';
-                        $vm.render_checkbox_field(records[I].Data,'__ID',td,html)
-                        break;
-
                 }
             }
             //-------------------------------------

@@ -18,6 +18,16 @@
 	        </div>
 			<div class="row row__ID">
 				<div class="col">
+		    		<label>Research Leader</label>
+		    		<input type="text" class="form-control" name="Research_Leader" id=Research_Leader__ID  />
+				</div>
+				<div class="col"style="display:none">
+		    		<label>Research Leader UID</label>
+		    		<input type="text" class="form-control" name="Research_Leader_uid"  />
+				</div>
+	        </div>
+			<div class="row row__ID">
+				<div class="col">
 		    		<label>Setup</label>
 		    		<input type="text" class="form-control" name="Setup" />
 				</div>
@@ -47,6 +57,36 @@
 			//-------------------------------------
             VmInclude:__COMPONENT__/f/form.01.js
 			//-------------------------------------
+           //auto select research-leader
+		   var get_name=function(record){
+                var name=record.Data.Research_Leader;
+                return name;
+            }
+            var get_client_info=function(record){
+                var name=record.Data.Research_Leader
+                return name;
+            }
+            var autocomplete_req_1={cmd:"find",table:"research-leader-wappsystem",options:{},skip:0,limit:10}
+            var autocomplete_callback_1=function(items){ $("#F__ID input[name=Research_Leader_uid]").val(items["UID"]); $("#F__ID input[name=Reserach_Leader]").val(get_client_info(items.record)); }
+            var autocomplete_list_1=function(records){
+                var items=[];
+                for(var i=0;i<records.length;i++){
+                    var obj={};
+                    obj.label=get_name(records[i]);
+                    obj['UID']=records[i].UID;
+                    obj['record']=records[i];
+                    items.push(obj);
+                }
+                return items;
+            }
+            var wait1=function(){
+                $vm.autocomplete($('#Research_Leader__ID'),autocomplete_req_1,autocomplete_list_1,autocomplete_callback_1);
+            }
+            var I=0; var loop_1=setInterval(function (){
+                if($vm['jquery-ui-min-js']!=undefined){  clearInterval(loop_1); wait1(); }
+                I++; if(I>50){ clearInterval(loop_1); alert("jquery-ui.min.js is not installed."); }
+            },100);
+            //-------------------------------------
 			m.before_submit=function(data,index){
 				data.Total_Paid=(parseInt(data.Setup)+parseInt(data.Ongoing));
 				index.I1=data.Total_Paid;

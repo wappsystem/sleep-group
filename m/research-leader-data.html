@@ -7,23 +7,29 @@
             //-------------------------------------
             VmInclude:__COMPONENT__/g/grid.01.js
             //-------------------------------------
-            var fields="Date,Project,Research_Leader_uid,Research_Leader,Setup,Ongoing,Total_Paid";
+            var fields="Research_Leader,_Print";
             m.fields="_Form,"+fields+",Submit_date,Submitted_by,_Delete";
-            //-------------------------------------            
+            //-------------------------------------
             m.cell_render=function(records,I,field,td){
                 switch(field){
-                    case 'Setup':
-                    case 'Ongoing':
-                    case 'Total_Paid':
-                        td.html("$"+parseFloat(records[I].Data[field]).toFixed(0));
-                        td.css('text-align','right')
+                    case 'Sequence_Number':
                         break;
+                    case '_Print':
+                    td.html('<u style="cursor:pointer">Print</u>');
+                    td.find('u').on('click',function(){
+                        $vm.load_module('charge-print','',{record:records[I]})
+                    })
+                        break;
+
+
                 }
             }
             //-------------------------------------
+            
         }
     </script>
     <style>
         VmInclude:__CURRENT_PATH__/grid.01.css
+
     </style>
 </div>

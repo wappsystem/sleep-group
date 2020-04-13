@@ -1,0 +1,131 @@
+<div id=D__ID>
+    <div id=container__ID style='margin-top:auto;margin-left:auto;margin-right:auto;padding-top:100px;width:21cm;'>
+        <h3>Contributions and charges for web based projects</h3>
+        <div style="display:flex;">
+            <div style='float:left;width:20%'>
+                    <br>Research Leader:
+                    <br>Reporting Date:
+                    <br>Balance:
+
+            </div>
+            <div style='float:right;width:80%;'>
+                    <br><span style='font-size: 120%' id=research_leader__ID><b></b></span>
+                    <br><span style='' id=Report_Date__ID></span>
+                    <br><span id=Balance__ID></span>
+            </div>
+        </div>
+        <div style='width:100%;float:left;clear:left'><br><br><b>Contributions</b></div>
+        <hr style='width:100%;float:left;clear:left;margin-top:6px;'>
+        <div id=items_contribution__ID style='width:100%;float:left;clear:left'></div>
+        <hr style='width:100%;float:left;clear:left;margin-bottom:6px;'>
+        <div style='float:right'>
+                <br><b>Total: <span id=Total_contribution__ID style='float:right;margin-left:20px'></span></b>
+        </div>
+        <div style='width:100%;float:left;clear:left'><br><br><b>Charges</b></div>
+        <hr style='width:100%;float:left;clear:left;margin-top:6px;'>
+        <div id=items_charge__ID style='width:100%;float:left;clear:left'></div>
+        <hr style='width:100%;float:left;clear:left;margin-bottom:6px;'>
+        <div style='float:right'>
+                <br><b>Total: <span id=Total_charge__ID style='float:right;margin-left:20px'></span></b>
+        </div>
+        <form id=F__ID></form>
+    </div>
+    <script>
+        //---------------------------------------------
+        function F__ID(){
+            //---------------------------------------------
+            VmInclude:__COMPONENT__/f/form.01.js
+            //---------------------------------------------
+            var request_count=0;
+            var charge_rec=[];
+            var contr_rec=[];
+            $('#D__ID').on('load',function(){
+                request_count=0;
+                var rep_date=new Date().toISOString().substring(0,10);
+                $('#Report_Date__ID').text(rep_date); 
+                $('#research_leader__ID').text(m.input.record.Data.Research_Leader);          
+                console.log("AA"+JSON.stringify($vm.module_list[$vm.vm['__ID'].name]));
+                m.Table=$vm.module_list[$vm.vm['__ID'].name].Table_3;
+                $vm.request({cmd:'find',table:m.Table,search:m.input.record.Data.Research_Leader},function(res){
+                    request_count++;
+                    contr_rec=res.result;
+                    console.log(JSON.stringify(res.result))
+                });
+                m.Table=$vm.module_list[$vm.vm['__ID'].name].Table_2;
+                $vm.request({cmd:'find',table:m.Table,search:m.input.record.Data.Research_Leader},function(res){
+                    request_count++;
+                    charge_rec=res.result;
+                    console.log(JSON.stringify(res.result))
+                })
+                check();
+            });
+            function check(){
+                if (request_count<2){
+                    setTimeout(function(){
+                        //console.log(req_count)
+                        check();
+                    },500);
+                }
+                else{
+                    create_report()
+                }
+            }
+                
+            var create_report=function(){
+                var total_contribution=0
+                var total_charges=0
+                var txt="<table style='width:100%'>";
+                txt=txt+"<tr><th>Date</td><th>Project</th><th style='text-align: right;'>Setup</th><th style='text-align: right;'>Ongoing</th><th style='text-align: right;'>Sum</th>";
+                if(contr_rec.length>0){
+                    for(var i=contr_rec.length-1;i>-1;i--){
+                        txt+="<tr><td>"+contr_rec[i].Data.Date+"</td>";
+                        txt+="<td>"+contr_rec[i].Data.Project+"</td>";
+                        txt+="<td style='text-align: right;'>"+formatter.format(contr_rec[i].Data.Setup)+"</td>";
+                        txt+="<td style='text-align: right;'>"+formatter.format(contr_rec[i].Data.Ongoing)+"</td>";
+                        txt+="<td style='text-align: right;'>"+formatter.format(contr_rec[i].Data.Total_Paid)+"</td></tr>";
+                        total_contribution+=parseInt(contr_rec[i].Data.Total_Paid);
+                    }
+                }
+                txt+="</table>"
+                $('#items_contribution__ID').html(txt);
+                $('#Total_contribution__ID').text(formatter.format(total_contribution));
+                txt="<table style='width:100%'>";
+                txt=txt+"<tr><th>Start Date</td><th>Project</th><th>Status</th><th style='text-align: right;'>Setup</th><th style='text-align: right;'>Ongoing</th><th style='text-align: right;'>Ongoing RO</th><th style='text-align: right;'>Sum</th>";
+                if(charge_rec.length>0){
+                    for(var i=charge_rec.length-1;i>-1;i--){
+                        txt+="<tr><td>"+charge_rec[i].Data.Start_Date+"</td>";
+                        txt+="<td>"+charge_rec[i].Data.Project+"</td>";
+                        txt+="<td>"+charge_rec[i].Data.Status+"</td>";
+                        txt+="<td style='text-align: right;'>"+formatter.format(charge_rec[i].Data.Setup)+"</td>";
+                        txt+="<td style='text-align: right;'>"+formatter.format(charge_rec[i].Data.Ongoing)+"</td>";
+                        txt+="<td style='text-align: right;'>"+formatter.format(charge_rec[i].Data.Ongoing_RO)+"</td>";
+                        txt+="<td style='text-align: right;'>"+formatter.format(charge_rec[i].Data.Total_Charge)+"</td></tr>";
+                        total_charges+=parseInt(charge_rec[i].Data.Total_Charge);
+                    }
+                }
+                txt+="</table>"
+                $('#items_charge__ID').html(txt);
+                $('#Total_charge__ID').text(formatter.format(total_charges));
+                if((total_contribution-total_charges)<0) $('#Balance__ID').css('color','red');
+                else $('#Balance__ID').css('color','black');
+                $('#Balance__ID').text(formatter.format(total_contribution-total_charges))
+            }
+            var formatter = new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD',
+                minimumFractionDigits: 0,
+            });
+    //-------------------------------------
+
+        }
+    </script>
+    <style>
+            #D__ID{
+                height:100%;
+                overflow:auto;
+                animation: vm_module_fadein 1.0s;
+                background-color:#fff;
+                font-family: 'Nunito Sans';
+            }
+        </style>
+</div>
