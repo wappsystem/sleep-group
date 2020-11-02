@@ -184,6 +184,8 @@
             },100);
             //-------------------------------------
 			m.before_submit=function(data,index){
+				$('#F__ID select[name=Status]').prop('disabled',false)
+				data.Status=$("#F__ID select[name=Status]").val()
 				//if(data.Setup=="" || data.Setup==undefined) data.Setup="0";
 				//if(data.Ongoing=="" || data.Ongoing==undefined) data.Ongoing="0";
 				//if(data.Ongoing_RO=="" || data.Ongoing_RO==undefined) data.Ongoing_RO="0";
