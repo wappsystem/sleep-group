@@ -10,13 +10,17 @@
             var fields="Project,Research_Leader_uid,Research_Leader,Start_Date,End_Date,Setup,Ongoing,Ongoing_RO,Total_Charge,Status,Charge_Status,Update_Date";
             m.fields="_Form,"+fields+",Submit_date,Submitted_by,_Delete";
             //-------------------------------------
+            m.load=function(){
+                m.query={"Data.Charge_Status": {"$ne" : "Hide"}}
+                
+            }
+            //-------------------------------------
             m.cell_render=function(records,I,field,td){
                 switch(field){
                     case 'Setup':
                     case 'Ongoing':
                     case 'Screening':
                     case 'Total_Charge':
-                    case 'Ongoing_RO':
                         td.html("$"+parseFloat(records[I].Data[field]).toFixed(0));
                         td.css('text-align','right')
                         break;

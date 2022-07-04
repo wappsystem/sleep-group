@@ -7,16 +7,19 @@
             //-------------------------------------
             VmInclude:__COMPONENT__/g/grid.01.js
             //-------------------------------------
-            var fields="Project,Research_Leader_uid,Research_Leader,Start_Date,End_Date,Setup,Ongoing,Ongoing_RO,Total_Charge,Status,Charge_Status,Update_Date";
+            var fields="Date,Project,Research_Leader_uid,Research_Leader,Setup,Ongoing,Paid_Status,Total_Paid";
             m.fields="_Form,"+fields+",Submit_date,Submitted_by,_Delete";
             //-------------------------------------
+            m.load=function(){
+                m.query={"Data.Paid_Status": {"$ne" : "Hide"}}
+              
+            }
+            //-------------------------------------            
             m.cell_render=function(records,I,field,td){
                 switch(field){
                     case 'Setup':
                     case 'Ongoing':
-                    case 'Screening':
-                    case 'Total_Charge':
-                    case 'Ongoing_RO':
+                    case 'Total_Paid':
                         td.html("$"+parseFloat(records[I].Data[field]).toFixed(0));
                         td.css('text-align','right')
                         break;
@@ -27,6 +30,5 @@
     </script>
     <style>
         VmInclude:__CURRENT_PATH__/grid.01.css
-
     </style>
 </div>

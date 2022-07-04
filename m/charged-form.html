@@ -15,7 +15,7 @@
 		    		<label>Research Leader</label>
 		    		<input type="text" class="form-control" name="Research_Leader" id=Research_Leader__ID  />
 				</div>
-				<div class="col"style="display:none">
+				<div class="col"style="display:xnone">
 		    		<label>Research Leader</label>
 		    		<input type="text" class="form-control" name="Research_Leader_uid"  />
 				</div>
@@ -48,6 +48,18 @@
 					</label>
 				</div>
 			</div>
+			<div class='row row__ID'>
+				<div class="col">
+					<label class=''><span class=''>Charge Status</span>
+						<select class=form-control name=Charge_Status>
+							<option value=''>---</option>
+							<option value="Hide">Hide</option>
+							<option value="Active">Active</option>
+						</select>
+					</label>
+				</div>
+			</div>
+
 			<hr>
 			<div class="row row__ID">
 				<div class="col-4">
@@ -128,6 +140,8 @@
 						var date1 = new Date(fulldate[0],fulldate[1]-1,fulldate[2]);
 						var date2 = new Date(Date.now());
 						$('#Ongoing__ID').val(((date2-date1)/24/3600000*2.4657).toFixed(0)); // $75/month
+						$('#Ongoing_ro__ID').val('0');
+						if(parseFloat($('#Ongoing__ID').val())<0) $('#Ongoing__ID').val('0'); 
 					}
 					else if($("#F__ID select[name=Status]").val()=="Locked"){
 						var fulldate=($('#Start_Date__ID').val()).split('-')
@@ -135,12 +149,14 @@
 						fulldate=($('#End_Date__ID').val()).split('-')
 						var date2 = new Date(fulldate[0],fulldate[1]-1,fulldate[2]);
 						$('#Ongoing__ID').val(((date2-date1)/24/3600000*2.4657).toFixed(0)); // $75/month
+						if(parseFloat($('#Ongoing__ID').val())<0) $('#Ongoing__ID').val('0'); 
 					}
 					if($("#F__ID select[name=Status]").val()=="Locked"){
 						var fulldate=($('#End_Date__ID').val()).split('-')
 						var date1 = new Date(fulldate[0],fulldate[1]-1,fulldate[2]);
 						var date2 = new Date(Date.now());
 						$('#Ongoing_ro__ID').val(((date2-date1)/24/3600000*0.4931).toFixed(0)); // $15/month
+						if(parseFloat($('#Ongoing_ro__ID').val())<0) $('#Ongoing_ro__ID').val('0'); 
 					}
 					else if($("#F__ID select[name=Status]").val()=="Disabled"){
 						var fulldate=($('#End_Date__ID').val()).split('-')
@@ -148,6 +164,7 @@
 						fulldate=($('#Disable_Date__ID').val()).split('-')
 						var date2 = new Date(fulldate[0],fulldate[1]-1,fulldate[2]);
 						$('#Ongoing_ro__ID').val(((date2-date1)/24/3600000*0.4931).toFixed(0)); // $15/month
+						if(parseFloat($('#Ongoing_ro__ID').val())<0) $('#Ongoing_ro__ID').val('0'); 
 					}
 				}
 				$('#Total_Charge__ID').val((parseFloat($('#Setup__ID').val())+parseFloat($('#Ongoing__ID').val())+parseFloat($('#Ongoing_ro__ID').val())).toFixed(0));

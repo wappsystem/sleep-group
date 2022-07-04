@@ -78,12 +78,14 @@
                 txt=txt+"<tr><th>Date</td><th>Project</th><th style='text-align: right;'>Setup</th><th style='text-align: right;'>Ongoing</th><th style='text-align: right;'>Sum</th>";
                 if(contr_rec.length>0){
                     for(var i=contr_rec.length-1;i>-1;i--){
-                        txt+="<tr><td>"+contr_rec[i].Data.Date+"</td>";
-                        txt+="<td>"+contr_rec[i].Data.Project+"</td>";
-                        txt+="<td style='text-align: right;'>"+formatter.format(contr_rec[i].Data.Setup)+"</td>";
-                        txt+="<td style='text-align: right;'>"+formatter.format(contr_rec[i].Data.Ongoing)+"</td>";
-                        txt+="<td style='text-align: right;'>"+formatter.format(contr_rec[i].Data.Total_Paid)+"</td></tr>";
-                        total_contribution+=parseInt(contr_rec[i].Data.Total_Paid);
+                        if(contr_rec[i].Data.Paid_Status!='Hide'){
+                            txt+="<tr><td>"+contr_rec[i].Data.Date+"</td>";
+                            txt+="<td>"+contr_rec[i].Data.Project+"</td>";
+                            txt+="<td style='text-align: right;'>"+formatter.format(contr_rec[i].Data.Setup)+"</td>";
+                            txt+="<td style='text-align: right;'>"+formatter.format(contr_rec[i].Data.Ongoing)+"</td>";
+                            txt+="<td style='text-align: right;'>"+formatter.format(contr_rec[i].Data.Total_Paid)+"</td></tr>";
+                            total_contribution+=parseInt(contr_rec[i].Data.Total_Paid);
+                        }
                     }
                 }
                 txt+="</table>"
@@ -93,14 +95,16 @@
                 txt=txt+"<tr><th>Start Date</td><th>Project</th><th>Status</th><th style='text-align: right;'>Setup</th><th style='text-align: right;'>Ongoing</th><th style='text-align: right;'>Ongoing RO</th><th style='text-align: right;'>Sum</th>";
                 if(charge_rec.length>0){
                     for(var i=charge_rec.length-1;i>-1;i--){
-                        txt+="<tr><td>"+charge_rec[i].Data.Start_Date+"</td>";
-                        txt+="<td>"+charge_rec[i].Data.Project+"</td>";
-                        txt+="<td>"+charge_rec[i].Data.Status+"</td>";
-                        txt+="<td style='text-align: right;'>"+formatter.format(charge_rec[i].Data.Setup)+"</td>";
-                        txt+="<td style='text-align: right;'>"+formatter.format(charge_rec[i].Data.Ongoing)+"</td>";
-                        txt+="<td style='text-align: right;'>"+formatter.format(charge_rec[i].Data.Ongoing_RO)+"</td>";
-                        txt+="<td style='text-align: right;'>"+formatter.format(charge_rec[i].Data.Total_Charge)+"</td></tr>";
-                        total_charges+=parseInt(charge_rec[i].Data.Total_Charge);
+                        if(charge_rec[i].Data.Charge_Status!='Hide'){
+                            txt+="<tr><td>"+charge_rec[i].Data.Start_Date+"</td>";
+                            txt+="<td>"+charge_rec[i].Data.Project+"</td>";
+                            txt+="<td>"+charge_rec[i].Data.Status+"</td>";
+                            txt+="<td style='text-align: right;'>"+formatter.format(charge_rec[i].Data.Setup)+"</td>";
+                            txt+="<td style='text-align: right;'>"+formatter.format(charge_rec[i].Data.Ongoing)+"</td>";
+                            txt+="<td style='text-align: right;'>"+formatter.format(charge_rec[i].Data.Ongoing_RO)+"</td>";
+                            txt+="<td style='text-align: right;'>"+formatter.format(charge_rec[i].Data.Total_Charge)+"</td></tr>";
+                            total_charges+=parseInt(charge_rec[i].Data.Total_Charge);
+                        }
                     }
                 }
                 txt+="</table>"

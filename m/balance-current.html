@@ -17,7 +17,7 @@
                                 </td>
                                 <td >
                                     <h6>
-                                        <a href=?/paid-data>Details <i class="fa fa-toggle-right"></i> </a>
+                                        <a href=?/paid-active-data>Active Details <i class="fa fa-toggle-right"></i> </a>&nbsp;&nbsp;<a href=?/paid-data>All data</a>
                                     </h6>
                                 </td>
                             </tr>
@@ -32,7 +32,7 @@
                                 </td>
                                 <td >
                                     <h6>
-                                        <a href=?/charged-data>Details <i class="fa fa-toggle-right"></i> </a>
+                                        <a href=?/charged-active-data>Active Details <i class="fa fa-toggle-right"></i> </a>&nbsp;&nbsp;<a href=?/charged-data>Details </a>
                                     </h6>
                                 </td>
                             </tr>
@@ -117,8 +117,7 @@
                 m.data_process = function () {
                     var charged = 0;
                     for (var i = 0; i < m.records.length; i++) {
-                        charged += parseInt(m.records[i].Data.Total_Charge);
-                        console.log(charged)
+                        if(m.records[i].Data.Charge_Status!='Hide') charged += parseInt(m.records[i].Data.Total_Charge);
                     }
                     request_data_2(charged)
                 };
@@ -126,7 +125,7 @@
                 var data_process_2 = function (charged) {
                     var paid = 0;
                     for (var i = 0; i < m.records.length; i++) {
-                        paid += parseInt(m.records[i].Data.Total_Paid);
+                        if(m.records[i].Data.Paid_Status!='Hide') paid += parseInt(m.records[i].Data.Total_Paid);
                     }
                     $('#Paid__ID').text(formatter.format(paid))
                     $('#Used__ID').text(formatter.format(charged))
